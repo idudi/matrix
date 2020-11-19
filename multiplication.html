@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+        Multiplication/Product Matrix
+    </title>
+    <style>
+        table, p{
+            display:inline-block;
+        }
+        p {
+            vertical-align: top;
+        }
+        table{
+            margin:0 9px;
+        }
+    </style>
+</head>
+<body>
+
+    <table id="matrixA"></table>
+    <p>X</p>
+    <table id="matrixB"></table>
+    <p>=</p>
+    <table id="matrixC"></table>
+    <br /><br /><br /><div id="log"></div>
+    <br /><br /><br /><a href="https://en.wikipedia.org/wiki/Matrix_multiplication">wiki</a>
+
+    <script>
+        const maxRows = 3;
+        const maxCols = maxRows;
+        const matrixA = [];
+        const matrixB = [];
+        const matrixC = [];
+        let tmp = 1
+
+        populateMatrix(matrixA, "#matrixA");
+        displayMatrix(matrixA, "#matrixA");
+
+        populateMatrix(matrixB, "#matrixB");
+        displayMatrix(matrixB, "#matrixB");
+
+
+        populateMatrix(matrixC, "#matrixC");
+
+        //set matrix C
+        let level = 0;
+        for (let i = 0; i < maxRows-1; i++) {
+            for (let j = 0; j < maxCols-1; j++) {
+                //matrixC[i][j] = matrixA[i][i] * matrixB[i][j] + matrixA[i][j + 1] * matrixB[i + 1][j];
+                //matrixC[i][j + 1] = matrixA[i][i] * matrixB[i][j + 1] + matrixA[i][j + 1] * matrixB[i + 1][j + 1];
+                //j++;
+
+                for (var x = 0; x < maxCols-2; x++) {
+                    //matrixC[i][j] = matrixA[i][i] * matrixB[i][j] + matrixA[i][j + 1] * matrixB[i + 1][j];
+                    matrixC[i][j + x] = matrixA[i][x] * matrixB[x][j] + matrixA[x][x + 1] * matrixB[x + 1][j + 1];
+                }
+                j++;
+            }
+            
+        }
+
+        for (let i = 0; i < maxRows-1; i++) {
+            for (let j = 0; j < maxCols - 1; j++) {
+                var x = matrixA[i][j] * matrixB[i][j] + matrixA[i][j + 1] * matrixB[i + 1][j];
+                addLog(x + " | matrixA[" + i + "][" + j + "] * matrixB[" + i + "][" + j + "] + matrixA[" + i + "][" + (j + 1) + "] * matrixB[" + (i + 1) + "][" + j + "]");
+                addLog("     (" + matrixA[i][j] + " x " + matrixB[i][j] + ") + (" + matrixA[i][j + 1] + " x " + matrixB[i + 1][j] + ")");
+            }
+        }
+
+
+        displayMatrix(matrixC, "#matrixC")
+
+
+        function populateMatrix(matrix, selector) {
+            //set matrix
+            for (let i = 0; i < maxRows; i++) {
+                matrix.push([0])
+                for (let j = 0; j < maxCols; j++) {
+                    matrix[i][j] = tmp++;   // getRandomInt(1, 9);
+                }
+            }
+
+        }
+
+        function displayMatrix(matrix, selector) {
+            //display matrix
+            for (let i = 0; i < maxRows-1; i++) {
+                let row = document.createElement('tr');
+                row.setAttribute('data-index', i);
+                document.querySelector(selector).appendChild(row);
+                for (let j = 0; j < maxCols-1; j++) {
+                    let cell = document.createElement('td');
+                    cell.setAttribute('data-row', i);
+                    cell.setAttribute('data-col', j);
+                    cell.innerText = matrix[i][j];
+                    row.appendChild(cell);
+                }
+            }
+        }
+
+        function addLog(str) {
+            let log = document.getElementById('log');
+            let p = document.createElement('p')
+            let br = document.createElement('br');
+            p.innerText = str;
+            log.appendChild(p);
+            log.appendChild(br);
+        }
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+    </script>
+
+</body>
+</html>

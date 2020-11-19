@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+        Identity Matrix
+    </title>
+</head>
+<body>
+
+    <table id="matrix"></table>
+    <br /><br /><br /><a href="https://en.wikipedia.org/wiki/Identity_matrix">wiki</a>
+
+    <script>
+        const maxRows = 9;
+        const maxCols = maxRows;
+        const matrix = [];
+
+        //set matrix
+        for (let i = 0; i < maxRows; i++) {
+            matrix.push([0])
+            for (let j = 0; j < maxCols; j++) {
+                if (i === j) {
+                    matrix[i][j] = "1";
+                }
+                else {
+                    matrix[i][j] = "0";
+                }
+            }
+        }
+
+        //display matrix
+        for (let i = 0; i < maxRows; i++) {
+            let row = document.createElement('tr');
+            row.setAttribute('data-index', i);
+            document.querySelector('#matrix').appendChild(row);
+            for (let j = 0; j < maxCols; j++) {
+                let cell = document.createElement('td');
+                cell.setAttribute('data-row', i);
+                cell.setAttribute('data-col', j);
+                cell.innerText = matrix[i][j];
+                row.appendChild(cell);
+            }
+        }
+
+        console.log(matrix);
+        console.log(JSON.stringify(matrix));
+
+    </script>
+
+</body>
+</html>
